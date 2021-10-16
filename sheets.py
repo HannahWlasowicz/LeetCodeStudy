@@ -26,17 +26,16 @@ easy = []
 medium = []
 hard = []
 for row in values:
-    link = row['values'][0]
-    if 'hyperlink' in link:
-        if count < 35:
-            easy.append(link)
-        elif count <140:
-            medium.append(link)
-        else:
-            hard.append(link)
+    link = row['values'][0]['hyperlink']
+    if count < 35:
+        easy.append(link)
+    elif count <140:
+        medium.append(link)
     else:
-        print(row)
-        print(count)
+        hard.append(link)
+    # else:
+    #     print(row)
+    #     print(count)
     count += 1
     
 
@@ -49,9 +48,29 @@ result = sheet.values().get(spreadsheetId=spreadsheet_id,
                         range="170Questions!A2:A171").execute()
 values = result.get('values')
 
-print(values[:10])
-cat = []
+retVal = {'easy': [], 'medium': [], 'hard':[]}
+
+
+count = 0
+midx = 0
+hidx = 0
+
 for val in values:
     val = val[0]
     words = val.split(".")
-    
+    categories = words[1][1:].split("/")
+
+    if count <35:
+        item = {easy[count]: categories}
+        retVal['easy'].append(item)
+    elif count<140:
+        item = {medium[midx]: categories}
+        retVal['medium'].append(item)
+        midx+=1
+    else:
+        item = {hard[hidx]: categories}
+        retVal['hard'].append(item)
+        hidx+=1
+    count += 1
+
+print(len(retVal['easy']))
