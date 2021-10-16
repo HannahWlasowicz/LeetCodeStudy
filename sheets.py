@@ -2,7 +2,7 @@ import os
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from googleapiclient import discovery
-from pprint import pprint
+import json
 
 creds = None
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -61,16 +61,19 @@ for val in values:
     categories = words[1][1:].split("/")
 
     if count <35:
-        item = {easy[count]: categories}
+        item = {'link':easy[count], 'categories':categories}
         retVal['easy'].append(item)
     elif count<140:
-        item = {medium[midx]: categories}
+        item = {'link':medium[midx], 'categories':categories}
         retVal['medium'].append(item)
         midx+=1
     else:
-        item = {hard[hidx]: categories}
+        item = {'link':hard[hidx], 'categories':categories}
         retVal['hard'].append(item)
         hidx+=1
     count += 1
 
 print(len(retVal['easy']))
+
+with open('data.txt', 'w', encoding='utf8') as outfile:
+    json.dump(retVal, outfile)

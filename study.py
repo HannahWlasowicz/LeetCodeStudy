@@ -1,7 +1,17 @@
 import random
 import webbrowser
 
+import json
 
+easy = []
+medium = []
+hard = []
+
+with open('data.txt') as json_file:
+	data = json.load(json_file)
+	easy = data['easy']
+	medium = data['medium']
+	hard = data['hard']
 
 num_easy = input("Enter number of easy questions (max 35): ")
 while not num_easy.isnumeric() or (int(num_easy) < 0 or int(num_easy) > 35):
@@ -23,17 +33,17 @@ print(num_medium)
 print(num_hard)
 
 
-easy_quest = random.choice(easy, k=num_easy)
-medium_quest = random.choice(medium, k=num_medium)
-hard_quest = random.choice(hard, k=num_hard)
+easy_quest = random.choices(easy, k=num_easy)
+medium_quest = random.choices(medium, k=num_medium)
+hard_quest = random.choices(hard, k=num_hard)
 
 for quest in easy_quest:
-	webbrowser.open(quest)
+	webbrowser.open(quest['link'])
 
 for quest in medium_quest:
-	webbrowser.open(quest)
+	webbrowser.open(quest['link'])
 
 for quest in hard_quest:
-	webbrowser.open(quest)
+	webbrowser.open(quest['link'])
 
 print("Happy Studying :D")
