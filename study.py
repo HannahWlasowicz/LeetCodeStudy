@@ -37,13 +37,23 @@ easy_quest = random.choices(easy, k=num_easy)
 medium_quest = random.choices(medium, k=num_medium)
 hard_quest = random.choices(hard, k=num_hard)
 
+print("Happy Studying :D")
 for quest in easy_quest:
 	webbrowser.open(quest['link'])
+	moveon = input("have you finished?")
+	while moveon.lower() != "yes" and moveon.lower() != 'y':
+		moveon = input("Are you sure you've finished?")
 
 for quest in medium_quest:
 	webbrowser.open(quest['link'])
+	moveon = input("have you finished?")
+	while moveon.lower() != "yes" and moveon.lower() != 'y':
+		moveon = input("Are you sure you've finished?")
 
 for quest in hard_quest:
 	webbrowser.open(quest['link'])
+	moveon = input("have you finished?")
+	while moveon.lower() != "yes" and moveon.lower() != 'y':
+		moveon = input("Are you sure you've finished?")
 
-print("Happy Studying :D")
+print("Hope you did well. Re-run again for new questions")
