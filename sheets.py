@@ -14,7 +14,7 @@ creds = service_account.Credentials.from_service_account_file(
 service = discovery.build('sheets', 'v4', credentials=creds)
 spreadsheet_id = '1YXMMcs73sIU5qZfDkGywbCXyeAXrOImGtWX-xYcMZac'  # TODO: Update placeholder value.
 
-ranges = ["170Questions!G2:G3"]  # TODO: Update placeholder value.
+ranges = ["170Questions!G2:G171"]  # TODO: Update placeholder value.
 
 include_grid_data = True  # TODO: Update placeholder value.
 
@@ -26,11 +26,32 @@ easy = []
 medium = []
 hard = []
 for row in values:
-	link = row['values'][0]['hyperlink']
-	if count < 35:
-		easy.append(link)
-	elif count <140:
-		medium.append(link)
-	else:
-		hard.append(link)
-	count += 1
+    link = row['values'][0]
+    if 'hyperlink' in link:
+        if count < 35:
+            easy.append(link)
+        elif count <140:
+            medium.append(link)
+        else:
+            hard.append(link)
+    else:
+        print(row)
+        print(count)
+    count += 1
+    
+
+print(len(easy))
+print(len(medium))
+print(len(hard))
+
+sheet = service.spreadsheets()
+result = sheet.values().get(spreadsheetId=spreadsheet_id,
+                        range="170Questions!A2:A171").execute()
+values = result.get('values')
+
+print(values[:10])
+cat = []
+for val in values:
+    val = val[0]
+    words = val.split(".")
+    
